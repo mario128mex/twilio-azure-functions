@@ -1,13 +1,20 @@
-module.exports = async function (context, req) {
+const qs = require("querystring");
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
+
+module.exports = function (context, req) {
   context.log('JavaScript HTTP trigger function processed a request.');
 
-  const name = (req.query.name || (req.body && req.body.name));
-  const responseMessage = name
-    ? "Hello, " + name + ". This HTTP triggered function executed successfully."
-    : "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
+  const formValues = qs.parse(req.body);
+
+  const twiml = new MessagingResponse();
+  twiml.message('new function: ' + formValues.Body);
 
   context.res = {
-    // status: 200, /* Defaults to 200 */
-    body: responseMessage
+    status: 200,
+    body: twiml.toString(),
+    headers: { 'Content-Type': 'application/xml' },
+    isRaw: true
   };
+
+  context.done();
 };
