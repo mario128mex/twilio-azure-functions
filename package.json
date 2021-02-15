@@ -7,6 +7,7 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "eslint": "^7.19.0",
     "twilio": "^3.56.0"
   },
